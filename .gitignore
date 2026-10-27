@@ -19,3 +19,6 @@ secrets/
 credentials/
 config/*.local.*
 config/persona.json
+
+# 本地私有开发资料（只给自己看，不发布）
+.local/
