@@ -1,0 +1,29 @@
+# ============================================
+# QQ 群聊机器人 - systemd 服务文件
+# 手动安装参考模板；deploy.sh 会按实际项目目录动态生成服务文件。
+# 手动安装：sudo cp ai-qq-bot.service /etc/systemd/system/ai-qq-bot.service && sudo systemctl daemon-reload
+# ============================================
+
+[Unit]
+Description=QQ 群聊机器人
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# 将示例用户名和项目目录替换为设备上的实际值。
+User=your-linux-user
+WorkingDirectory=/home/your-linux-user/project/ai-qq-bot
+# Python 虚拟环境由部署脚本创建在项目目录的 .venv 中。
+ExecStart=/home/your-linux-user/project/ai-qq-bot/.venv/bin/python src/main.py
+
+# 崩溃后自动重启，等 10 秒再拉起（避免雪崩）
+Restart=on-failure
+RestartSec=10
+
+# 日志交给 systemd journal 管理
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
